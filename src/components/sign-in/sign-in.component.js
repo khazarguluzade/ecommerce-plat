@@ -52,9 +52,9 @@ class SignIn extends React.Component {
             required
           />
           <div className="buttons">
-            <CustomButton type="submit"> Sign in </CustomButton>
+            <CustomButton type="submit"> GİRİŞ YAP </CustomButton>
             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-              GOOGLE İLE OTURUM AÇ
+              GOOGLE İLE GİRİŞ YAP
             </CustomButton>
           </div>
         </form>

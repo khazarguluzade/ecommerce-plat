@@ -23,7 +23,7 @@ const Header = ({ currentUser }) => (
         </div>
       ) : (
         <Link className="option" to="/signin">
-          OTURUM AÇ
+          GİRİŞ YAP
         </Link>
       )}
     </div>

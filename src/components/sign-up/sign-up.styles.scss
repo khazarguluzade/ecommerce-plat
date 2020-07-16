@@ -4,6 +4,17 @@
   width: 450px;
   margin-right: 50px;
 
+  .input-container {
+    position: relative;
+  }
+
+  .eye-icon-container {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
   .title {
     margin: 10px 0;
   }

@@ -1,10 +1,11 @@
 import React from "react";
-
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
-import { signInWithGoogle } from "../../firebase/firebase.utils";
-
+import { signInWithGoogle, auth } from "../../firebase/firebase.utils";
+import GoogleIcon from "../../assets/icons/GoogleIcon";
 import "./sign-in.styles.scss";
+import Eye from "../../assets/icons/Eye";
+import swal from "sweetalert";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -13,13 +14,29 @@ class SignIn extends React.Component {
     this.state = {
       email: "",
       password: "",
+      isPasswordShown: false,
+      currentUser: {},
     };
   }
+
+  togglePasswordVisiblity = () => {
+    const { isPasswordShown } = this.state;
+    this.setState({ isPasswordShown: !isPasswordShown });
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
     this.setState({ email: "", password: "" });
+
+    auth
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((res) => {
+        swal("Giriş Başarılı", "", "success");
+      })
+      .catch((res) => {
+        swal("Hatalı Giriş", "E-posta veya Şifre Yanlış", "error");
+      });
   };
 
   handleChange = (event) => {
@@ -29,6 +46,7 @@ class SignIn extends React.Component {
   };
 
   render() {
+    const { isPasswordShown } = this.state;
     return (
       <div className="sign-in">
         <h2>Kayıtlı Hesabım Mevcut</h2>
@@ -43,15 +61,26 @@ class SignIn extends React.Component {
             label="E-posta"
             required
           />
-          <FormInput
-            name="password"
-            type="password"
-            value={this.state.password}
-            handleChange={this.handleChange}
-            label="Şifre"
-            required
-          />
+          <div className="input-container">
+            <FormInput
+              type={isPasswordShown ? "text" : "password"}
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              label="Şifre"
+              required
+            />
+            <div
+              className="eye-icon-container"
+              onClick={this.togglePasswordVisiblity}
+            >
+              <Eye />
+            </div>
+          </div>
           <div className="buttons">
+            <div className="google-icon-container">
+              <GoogleIcon />
+            </div>
             <CustomButton type="submit"> GİRİŞ YAP </CustomButton>
             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
               GOOGLE İLE GİRİŞ YAP

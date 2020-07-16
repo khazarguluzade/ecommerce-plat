@@ -7,6 +7,18 @@
   .title {
     margin: 10px 0;
   }
+  .input-container {
+    position: relative;
+  }
+  .eye-icon-container {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .google-icon-container {
+    position: absolute;
+  }
 
   .buttons {
     display: flex;

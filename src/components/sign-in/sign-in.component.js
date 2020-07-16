@@ -78,13 +78,15 @@ class SignIn extends React.Component {
             </div>
           </div>
           <div className="buttons">
-            <div className="google-icon-container">
-              <GoogleIcon />
-            </div>
             <CustomButton type="submit"> GİRİŞ YAP </CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-              GOOGLE İLE GİRİŞ YAP
-            </CustomButton>
+            <div className="login-with-google">
+              <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+                <div className="google-icon-container">
+                  <GoogleIcon />
+                </div>
+                <span>İLE GİRİŞ YAP</span>
+              </CustomButton>
+            </div>
           </div>
         </form>
       </div>

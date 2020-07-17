@@ -15,6 +15,7 @@ class SignIn extends React.Component {
       email: "",
       password: "",
       isPasswordShown: false,
+      passwordEyeShown: false,
       currentUser: {},
     };
   }
@@ -41,8 +42,9 @@ class SignIn extends React.Component {
 
   handleChange = (event) => {
     const { value, name } = event.target;
-
-    this.setState({ [name]: value });
+    if (value.length > 0)
+      this.setState({ [name]: value, passwordEyeShown: true });
+    else this.setState({ [name]: "", passwordEyeShown: false });
   };
 
   render() {
@@ -70,12 +72,14 @@ class SignIn extends React.Component {
               label="Şifre"
               required
             />
-            <div
-              className="eye-icon-container"
-              onClick={this.togglePasswordVisiblity}
-            >
-              <Eye />
-            </div>
+            {this.state.passwordEyeShown && (
+              <div
+                className="eye-icon-container"
+                onClick={this.togglePasswordVisiblity}
+              >
+                <Eye />
+              </div>
+            )}
           </div>
           <div className="buttons">
             <CustomButton type="submit"> GİRİŞ YAP </CustomButton>

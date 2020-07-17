@@ -11,7 +11,9 @@ class SignUp extends React.Component {
 
     this.state = {
       isPasswordShown: false,
-      isPasswordShownRepeat: false,
+      passwordEyeShown: false,
+      isConfirmPasswordShown: false,
+      confirmPasswordEyeShown: false,
       displayName: "",
       email: "",
       password: "",
@@ -23,29 +25,24 @@ class SignUp extends React.Component {
     const { isPasswordShown } = this.state;
     this.setState({ isPasswordShown: !isPasswordShown });
   };
-  togglePasswordVisiblityRepeat = () => {
-    const { isPasswordShownRepeat } = this.state;
-    this.setState({ isPasswordShownRepeat: !isPasswordShownRepeat });
+  toggleConfirmPasswordVisiblity = () => {
+    const { isConfirmPasswordShown } = this.state;
+    this.setState({ isConfirmPasswordShown: !isConfirmPasswordShown });
   };
 
   handleSubmit = async (event) => {
     event.preventDefault();
-
     const { displayName, email, password, confirmPassword } = this.state;
-
     if (password !== confirmPassword) {
       alert("Şifre Uyuşmadı");
       return;
     }
-
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       );
-
       await createUserProfileDocument(user, { displayName });
-
       this.setState({
         displayName: "",
         email: "",
@@ -57,10 +54,11 @@ class SignUp extends React.Component {
     }
   };
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value });
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    if (value.length > 0)
+      this.setState({ [`${name}EyeShown`]: true, [name]: value });
+    else this.setState({ [`${name}EyeShown`]: false, [name]: "" });
   };
 
   render() {
@@ -70,7 +68,7 @@ class SignUp extends React.Component {
       password,
       confirmPassword,
       isPasswordShown,
-      isPasswordShownRepeat,
+      isConfirmPasswordShown,
     } = this.state;
     return (
       <div className="sign-up">
@@ -102,28 +100,32 @@ class SignUp extends React.Component {
               label="Şifre"
               required
             />
-            <div
-              className="eye-icon-container"
-              onClick={this.togglePasswordVisiblity}
-            >
-              <Eye />
-            </div>
+            {this.state.passwordEyeShown && (
+              <div
+                className="eye-icon-container"
+                onClick={this.togglePasswordVisiblity}
+              >
+                <Eye />
+              </div>
+            )}
           </div>
           <div className="input-container">
             <FormInput
-              type={isPasswordShownRepeat ? "text" : "password"}
+              type={isConfirmPasswordShown ? "text" : "password"}
               name="confirmPassword"
               value={confirmPassword}
               onChange={this.handleChange}
               label="Şifreni Onayla"
               required
             />
-            <div
-              className="eye-icon-container"
-              onClick={this.togglePasswordVisiblityRepeat}
-            >
-              <Eye />
-            </div>
+            {this.state.confirmPasswordEyeShown && (
+              <div
+                className="eye-icon-container"
+                onClick={this.toggleConfirmPasswordVisiblity}
+              >
+                <Eye />
+              </div>
+            )}
           </div>
           <CustomButton type="submit">KAYDOL</CustomButton>
         </form>
